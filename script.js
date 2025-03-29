@@ -2,7 +2,7 @@
 let messages = [
     {
       id: 1,
-      sender: "bot",
+      sender: "assistant",
       text: "Hello! I'm your AI assistant. How can I help you today?",
     },
   ];
@@ -19,27 +19,12 @@ let messages = [
   const clearBtnEl = document.getElementById("clear-btn");
   const closeBtnEl = document.getElementById("close-btn");
   
-  // Avatars (place these images in your extension folder, or use any URL)
+  // Avatars
   const BOT_AVATAR_URL = chrome.runtime.getURL("botAvatar.png");
   const USER_AVATAR_URL = chrome.runtime.getURL("userAvatar.png");
   
   // Sound for incoming messages
   const messageSound = new Audio(chrome.runtime.getURL("message-received.mp3"));
-  
-  // Global variable to track minimized state
-  let isMinimized = false;
-  
-  /**
-   * 1) Load minimized state from chrome.storage.local on startup
-   */
-  chrome.storage.local.get("chatMinimized", (result) => {
-    if (result.chatMinimized !== undefined) {
-      isMinimized = result.chatMinimized;
-      if (isMinimized) {
-        chatAppEl.classList.add("minimized");
-      }
-    }
-  });
   
   /**
    * Render messages in the .chat-messages container
@@ -53,7 +38,7 @@ let messages = [
       // Create a container for each message + avatar
       const messageRow = document.createElement("div");
       messageRow.classList.add("message-row");
-      if (msg.sender === "bot") {
+      if (msg.sender === "assistant") {
         messageRow.classList.add("bot-row");
       } else {
         messageRow.classList.add("user-row");
@@ -62,7 +47,7 @@ let messages = [
       // Create avatar element
       const avatarImg = document.createElement("img");
       avatarImg.classList.add("avatar");
-      if (msg.sender === "bot") {
+      if (msg.sender === "assistant") {
         avatarImg.src = BOT_AVATAR_URL;
         avatarImg.alt = "Bot Avatar";
       } else {
@@ -91,89 +76,141 @@ let messages = [
       lastMessageEl = messageRow;
     });
   
-    // Use requestAnimationFrame to wait for layout
-   // Use requestAnimationFrame to wait for layout
+
   requestAnimationFrame(() => {
     if (lastMessageEl) {
       lastMessageEl.scrollIntoView({ block: "end", behavior: "instant" });
     }
   });
   }
-  
-  /**
-   * Handle sending a user message + simulate a bot reply
-   */
-  function handleSend() {
-    const userText = chatInputEl.value.trim();
-    if (!userText) return;
-  
-    // Add user message
-    messages.push({
-      id: Date.now(),
-      sender: "user",
-      text: userText,
+
+// Global variable to store the conversation ID
+let conversation_id = "";
+
+// Function to send query to your endpoint
+async function sendQuery(query) {
+  try {
+    // Build the payload
+    const payload = { query: query };
+    // If we already have a conversation_id, include it in the payload
+    if (conversation_id) {
+      payload.conversation_id = conversation_id;
+    }
+
+    const response = await fetch("https://150.230.44.54.nip.io/query", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
-    saveMessages(); // Save to localStorage
-  
-    chatInputEl.value = "";
-    renderMessages();
-  
-    // Play sound for user message
-    messageSound.play().catch((e) => console.warn("Sound play error:", e));
-  
-    // Simulate a bot response
-    setTimeout(() => {
-      const botReply = {
-        id: Date.now(),
-        sender: "bot",
-        text: `You said: "${userText}". This is a simulated AI response.`,
-      };
-      messages.push(botReply);
-      saveMessages(); // Save again
-  
-      renderMessages();
-      messageSound.play().catch((e) => console.warn("Sound play error:", e));
-    }, 800);
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Update the conversation_id if present in the response
+    if (data.conversation_id) {
+      conversation_id = data.conversation_id;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error sending query:", error);
+    return { error: error.message };
   }
+}
+
+// Updated handleSend function
+async function handleSend() {
+  const userText = chatInputEl.value.trim();
+  if (!userText) return;
+  
+  // Add the user's message to the chat messages array
+  messages.push({
+    id: Date.now(),
+    sender: "user",
+    text: userText,
+  });
+  saveMessages();
+  renderMessages();
+  
+  // Clear the input field
+  chatInputEl.value = "";
+  
+  // Optional: Play user message sound
+  messageSound.play().catch((e) => console.warn("Sound play error:", e));
+
+  // Add a temporary "Typing..." message from the bot
+  const typingMessage = {
+    id: Date.now(), // unique id
+    sender: "assistant",
+    text: "Typing...",
+    temporary: true, // flag to indicate it's temporary
+  };
+  messages.push(typingMessage);
+  renderMessages();
+
+  // Send the query to the endpoint and await the response
+  const response = await sendQuery(userText);
+
+  messages = messages.filter(msg => !msg.temporary);
+
+  // Create a bot message from the response.
+  // We assume the response JSON has a property 'response' for the bot's reply.
+  const botReply = {
+    id: Date.now(),
+    sender: "assistant",
+    text: response.response || (response.error ? `Error: ${response.error}` : "No response received."),
+  };
+
+  messages.push(botReply);
+  saveMessages();
+  renderMessages();
+
+  // Optional: Play bot message sound
+  messageSound.play().catch((e) => console.warn("Sound play error:", e));
+}
+
+// Wire up the send button
+sendBtnEl.addEventListener("click", handleSend);
+
+// Also trigger handleSend when the user presses the Enter key in the input
+chatInputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") handleSend();
+});
 
   function handleClearChat() {
     // Empty the array
-    messages = [];
+    messages = [
+      {
+        id: 1,
+        sender: "assistant",
+        text: "Hello! I'm your AI assistant. How can I help you today?",
+      },
+    ];
+    conversation_id = "";
     // Save to localStorage (so it stays empty after refresh)
     saveMessages();
     // Re-render
     renderMessages();
   }
   
-  /**
-   * Minimize the chat
-   */
-  function handleMinimize() {
-    isMinimized = true;
-    chatAppEl.classList.add("minimized");
-    chrome.storage.local.set({ chatMinimized: true });
-  }
-  
-  /**
-   * Expand the chat
-   */
-  function handleExpand() {
-    isMinimized = false;
-    chatAppEl.classList.remove("minimized");
-    chrome.storage.local.set({ chatMinimized: false });
-  }
   
   /**
    * Close the chat
    */
   function handleClose() {
-    chatAppEl.style.display = "none";
+    // Instead of directly hiding the chat app,
+    // send a message to the parent window to trigger the "close" behavior.
+    window.parent.postMessage({ action: 'closeChatbot' }, '*');
   }
-
-// Dropdown actions
-minimizeBtnEl.addEventListener("click", handleMinimize);
-clearBtnEl.addEventListener("click", handleClearChat);
-closeBtnEl.addEventListener("click", handleClose);
+  
+  clearBtnEl.addEventListener("click", handleClearChat);
+  closeBtnEl.addEventListener("click", handleClose);
 
   
   sendBtnEl.addEventListener("click", handleSend);

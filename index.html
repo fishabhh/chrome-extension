@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>My Awesome AI Chatbot</title>
+  <title>OCI Chatbot</title>
   <!-- Link to external CSS -->
   <link rel="stylesheet" href="styles.css" />
   <!-- Preload Google Fonts -->
@@ -28,30 +28,21 @@
 
   <!-- Chatbot Container -->
   <div class="chat-app">
-    <!-- Header (fixed at top) -->
     <header class="chat-header">
         <h1>Oracle AI</h1>
-        <!-- Single “:” button on the right -->
         <div class="header-menu">
-          <button class="menu-btn" id="menu-btn" title="Menu">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </button>
-          <div class="menu-dropdown" id="menu-dropdown">
-            <button class="dropdown-item" id="minimize-btn" title="Minimize Chat">-</button>
             <button class="dropdown-item" id="clear-btn" title="Clear Chat">Clear</button>
             <button class="dropdown-item" id="close-btn" title="Close Chat">x</button>
-          </div>
         </div>
       </header>
-      
-      
+
 
     <!-- Scrollable Chat Content -->
     <div class="chat-messages" id="chat-messages"></div>
 
     <!-- Footer / Input Area (fixed at bottom) -->
     <div class="chat-input">
-      <input type="text" id="chat-input" placeholder="Ask anything" />
+      <input type="text" id="chat-input" placeholder="Type here..." />
       <!-- Send button color updated to match dark beige -->
       <button id="send-btn">
         <i class="fa-solid fa-angle-up"></i>

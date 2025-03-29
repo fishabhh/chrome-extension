@@ -1,9 +1,10 @@
 {
-    "name": "My Extension",
+    "name": "OCI Chatbot",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
-      "storage"
+      "storage",
+      "https://150.230.44.54/*"
     ],
     "content_scripts": [
       {
