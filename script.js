@@ -3,7 +3,7 @@ let messages = [
   {
     id: 1,
     sender: "assistant",
-    text: "Hello! I'm your AI assistant. How can I help you today?",
+    text: "Hello! I'm your Oracle Cloud assistant. How can I help you today?",
     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
   },
 ];
@@ -204,7 +204,7 @@ function handleClearChat() {
     {
       id: 1,
       sender: "assistant",
-      text: "Hello! I'm your AI assistant. How can I help you today?",
+      text: "Hello! I'm your Oracle Cloud assistant. How can I help you today?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ];
