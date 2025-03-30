@@ -86,7 +86,6 @@ body {
   padding: 0 var(--spacing-md);
 }
 
-
 /* Title */
 .chat-header h1 {
   font-size: 1rem;
@@ -160,28 +159,54 @@ body {
 }
 
 /******************************************
-  MESSAGE BUBBLES
+  CARD STYLE MESSAGES & ADAPTIVE BUBBLES
 ******************************************/
+
+/* Wrapper container for card-style message */
+.message-card {
+  display: inline-block;
+  /* Allow the card to size itself based on content */
+  max-width: 80%;
+  padding: var(--spacing-sm);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--bubble-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  margin-bottom: 4px;
+}
+
+/* The actual message bubble within the card */
 .message-bubble {
-  max-width: 60%;
+  display: inline-block;
+  max-width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--bubble-radius);
   font-size: 0.9rem;
   line-height: 1.4;
-  word-wrap: break-word;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  word-break: break-word;
 }
 
+/* Bot bubble styling */
 .bot-bubble {
   background: var(--bot-bubble-bg);
   color: var(--text-color);
+  /* Adjust border radius if needed */
   border-bottom-left-radius: 4px;
 }
 
+/* User bubble styling */
 .user-bubble {
   background: var(--user-bubble-bg);
   color: #ffffff; /* White text on teal/blue bubble */
   border-bottom-right-radius: 4px;
+}
+
+/* Timestamp styling to show below each message */
+.timestamp {
+  font-size: 0.75rem;
+  color: var(--placeholder-color);
+  margin-top: 4px;
+  text-align: right;
 }
 
 /******************************************
