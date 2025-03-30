@@ -21,10 +21,7 @@ let messages = [
   
   // Avatars
   const BOT_AVATAR_URL = chrome.runtime.getURL("botAvatar.png");
-  const USER_AVATAR_URL = chrome.runtime.getURL("userAvatar.png");
-  
-  // Sound for incoming messages
-  const messageSound = new Audio(chrome.runtime.getURL("message-received.mp3"));
+  const USER_AVATAR_URL = chrome.runtime.getURL("userIcon.png");
   
   /**
    * Render messages in the .chat-messages container
@@ -58,8 +55,19 @@ let messages = [
       // Create bubble element
       const bubble = document.createElement("div");
       bubble.classList.add("message-bubble");
-      bubble.textContent = msg.text;
-  
+
+      if (msg.typing) {
+        bubble.innerHTML = `
+          <div class="typing-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        `;
+      } else {
+        bubble.textContent = msg.text;
+      }
+
       if (msg.sender === "user") {
         bubble.classList.add("user-bubble");
         // user row: bubble first, avatar after
@@ -140,16 +148,14 @@ async function handleSend() {
   
   // Clear the input field
   chatInputEl.value = "";
-  
-  // Optional: Play user message sound
-  messageSound.play().catch((e) => console.warn("Sound play error:", e));
 
-  // Add a temporary "Typing..." message from the bot
+  // Add a temporary "Hold on, I'm on it…" message from the bot
   const typingMessage = {
     id: Date.now(), // unique id
     sender: "assistant",
-    text: "Typing...",
+    text: "",
     temporary: true, // flag to indicate it's temporary
+    typing: true
   };
   messages.push(typingMessage);
   renderMessages();
@@ -170,9 +176,6 @@ async function handleSend() {
   messages.push(botReply);
   saveMessages();
   renderMessages();
-
-  // Optional: Play bot message sound
-  messageSound.play().catch((e) => console.warn("Sound play error:", e));
 }
 
 // Wire up the send button

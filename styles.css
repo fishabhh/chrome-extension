@@ -2,387 +2,300 @@
   GLOBAL FONT & BASIC RESET
 ******************************************/
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  html,
-  body {
-    width: 100%;
-    height: 100%;
-    font-family: "Poppins", sans-serif;
-    overflow: hidden; /* Hide default scrollbars for the iframe */
-  }
-  
-  /******************************************
-    THEME VARIABLES (Light Only)
-  ******************************************/
-  :root {
-    /* Light background gradient */
-    --bg-gradient: linear-gradient(135deg, #fafafa, #f0f0f0);
-  
-    /* Semi-transparent white for header/footer background */
-    --header-footer-bg: rgba(255, 255, 255, 0.7);
-  
-    /* Border color */
-    --border-color: rgba(0, 0, 0, 0.1);
-  
-    /* Bot bubble: light gray */
-    --bot-bubble-bg: #e3e3e3;
-  
-    /* User bubble & accent color: dark beige (example: #c8ad7f) */
-    --user-bubble-bg: #c8ad7f;
-    --accent-color: #c8ad7f;
-    --accent-color-hover: #b2976f;
-  
-    /* Text colors */
-    --text-color: #333;
-    --placeholder-color: #777;
-  
-    /* Layout & spacing */
-    --avatar-size: 36px;
-    --bubble-radius: 18px;
-    --header-height: 60px;
-    --footer-height: 60px;
-    --spacing-md: 16px;
-    --spacing-sm: 8px;
-  }
-  
-  /******************************************
-    CHAT APP CONTAINER
-  ******************************************/
-  .chat-app {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background: var(--bg-gradient);
-    position: relative;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  
-  /******************************************
-    HEADER (PINNED AT TOP)
-  ******************************************/
-  .chat-header {
-    flex-shrink: 0;
-    height: var(--header-height);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: 
-      url("bookImage.png") center/cover no-repeat,
-      var(--header-footer-bg);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-    padding: 0 var(--spacing-md);
-  }
-  
-  /* Container for minimize & close buttons */
-  .header-buttons {
-    position: absolute;
-    left: 10px;
-    display: flex;
-    gap: 8px;
-  }
-  
-  /* Minimize & close buttons */
-  .minimize-btn,
-  .expand-btn,
-  .close-btn {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--text-color);
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    border-radius: 4px;
-  }
-  
-  .minimize-btn:hover,
-  .expand-btn:hover,
-  .close-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  .expand-btn {
-    display: none;
-  }
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  /* Hide default scrollbars for the iframe */
+  overflow: hidden;
+}
 
-  .chat-app.minimized {
-    height: var(--header-height); /* Only the header remains visible */
-  }
-
-  /* Hide the chat content when minimized */
-  .chat-app.minimized .chat-messages,
-  .chat-app.minimized .chat-input {
-    display: none;
-  }
-
-  /* Show the expand button; hide the minimize button when minimized */
-.chat-app.minimized .expand-btn {
-    display: inline-block;
-  }
-  .chat-app.minimized .minimize-btn {
-    display: none;
-  }
-
-  /******************************************
-  DROPDOWN MENU
+/******************************************
+  THEME VARIABLES (Redwood-Inspired)
 ******************************************/
+:root {
+  /* Light background (neutral gray) */
+  --bg-color: #f5f5f5;
+  
+  /* Header/footer background with slight transparency */
+  --header-footer-bg: rgba(255, 255, 255, 0.7);
+
+  /* Border color */
+  --border-color: #d1d1d1;
+
+  /* Bot bubble: light gray */
+  --bot-bubble-bg: #eceef0;
+
+  /* User bubble & accent color (Oracle Redwood often uses teal or blue) */
+  --user-bubble-bg: #006fd2; /* Teal/Blue accent */
+  --accent-color: #006fd2;
+  --accent-color-hover: #0052a0;
+
+  /* Text colors */
+  --text-color: #1b1b1b;
+  --placeholder-color: #737373;
+
+  /* Layout & spacing */
+  --avatar-size: 36px;
+  --bubble-radius: 12px;
+  --header-height: 56px;
+  --footer-height: 56px;
+  --spacing-md: 16px;
+  --spacing-sm: 8px;
+}
+
+/******************************************
+  CHAT APP CONTAINER
+******************************************/
+.chat-app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+/******************************************
+  HEADER (PINNED AT TOP)
+******************************************/
+.chat-header {
+  flex-shrink: 0;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Add your background image and the semi-transparent overlay: */
+  background: 
+    url("bookImage.png") center/cover no-repeat,
+    var(--header-footer-bg);
+  backdrop-filter: blur(6px);
+
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding: 0 var(--spacing-md);
+}
+
+
+/* Title */
+.chat-header h1 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  user-select: none;
+}
+
+/* Container for Clear & Close */
 .header-menu {
-    position: absolute;
-    right: var(--spacing-md);
-    display: flex;
-    align-items: center;
-  }
-  
-  .menu-btn {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--text-color);
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    border-radius: 4px;
-  }
-  .menu-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-  
-  .menu-dropdown {
-    display: none;
-    position: absolute;
-    top: 35px; /* Below the ":" button */
-    right: 0;
-    background: var(--header-footer-bg);
-    backdrop-filter: blur(4px);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: var(--spacing-sm);
-  }
-  
-  .menu-dropdown.show {
-    display: block;
-  }
-  
-  /* Dropdown items (x, -, clear) */
-  .dropdown-item {
-    background: transparent;
-    border: none;
-    color: var(--text-color);
-    font-size: 1rem;
-    padding: var(--spacing-sm) var(--spacing-md);
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  .dropdown-item:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
+  position: absolute;
+  right: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .header-menu:hover .menu-dropdown {
-    display: block;
-  }
-  
-  /******************************************
-    HEADER TITLE
-  ******************************************/
-  .chat-header h1 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-color);
-    user-select: none;
-  }
-  
-  /******************************************
-    MESSAGES AREA (SCROLLABLE)
-  ******************************************/
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    padding: var(--spacing-md);
-    gap: var(--spacing-md);
-    position: relative;
-    background: url("weavePattern.png") center/cover no-repeat;
-  }
-  
-  /* Hidden when minimized */
-  .chat-messages.minimized {
-    display: none;
-  }
+/* Clear & Close Buttons */
+.dropdown-item {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px 8px;
+  transition: background 0.2s;
+}
 
-  /* In addition to your existing .minimize-btn, .expand-btn, .close-btn styles */
+.dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
 
-.clear-btn {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: var(--text-color);
-    width: 50px;     /* adjust as needed */
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    border-radius: 4px;
-    /* optional: same hover effect as others */
+/******************************************
+  MESSAGES AREA (SCROLLABLE)
+******************************************/
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  position: relative;
+}
+
+/******************************************
+  MESSAGE ROWS WITH AVATARS
+******************************************/
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  animation: fadeInUp 0.2s ease-in-out;
+}
+
+.bot-row {
+  justify-content: flex-start;
+}
+
+.user-row {
+  justify-content: flex-end;
+}
+
+/* Avatars */
+.avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 var(--spacing-sm);
+}
+
+/******************************************
+  MESSAGE BUBBLES
+******************************************/
+.message-bubble {
+  max-width: 60%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--bubble-radius);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bot-bubble {
+  background: var(--bot-bubble-bg);
+  color: var(--text-color);
+  border-bottom-left-radius: 4px;
+}
+
+.user-bubble {
+  background: var(--user-bubble-bg);
+  color: #ffffff; /* White text on teal/blue bubble */
+  border-bottom-right-radius: 4px;
+}
+
+/******************************************
+  FOOTER / INPUT AREA
+******************************************/
+.chat-input {
+  flex-shrink: 0;
+  height: var(--footer-height);
+  display: flex;
+  align-items: center;
+  background: var(--header-footer-bg);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--border-color);
+  padding: 0 var(--spacing-md);
+  z-index: 10;
+}
+
+/* Input Field */
+.chat-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  padding: var(--spacing-sm);
+  margin-right: var(--spacing-sm);
+}
+
+.chat-input input::placeholder {
+  color: var(--placeholder-color);
+}
+
+/* Send Button */
+.chat-input button {
+  border: none;
+  outline: none;
+  background: var(--accent-color);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.chat-input button:hover {
+  background: var(--accent-color-hover);
+}
+
+/******************************************
+  SIMPLE FADE/SLIDE ANIMATION
+******************************************/
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  .clear-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  
-  /******************************************
-    MESSAGE ROWS WITH AVATARS
-  ******************************************/
-  .message-row {
-    display: flex;
-    align-items: flex-end;
-    animation: fadeInUp 0.2s ease-in-out;
+}
+
+/******************************************
+  CUSTOM SCROLLBAR (optional)
+******************************************/
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/******************************************
+  OPTIONAL: TYPING INDICATOR
+******************************************/
+.typing-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+}
+
+.typing-dots .dot {
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  background-color: #666;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing-dots .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-dots .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
   }
-  
-  .bot-row {
-    justify-content: flex-start;
+  20% {
+    opacity: 1;
   }
-  
-  .user-row {
-    justify-content: flex-end;
+  100% {
+    opacity: 0.2;
   }
-  
-  /* Avatars */
-  .avatar {
-    width: var(--avatar-size);
-    height: var(--avatar-size);
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 var(--spacing-sm);
-    /* border: 1px solid var(--border-color); */
-  }
-  
-  /******************************************
-    MESSAGE BUBBLES
-  ******************************************/
-  .message-bubble {
-    max-width: 60%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--bubble-radius);
-    font-size: 0.9rem;
-    line-height: 1.4;
-    word-wrap: break-word;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    color: var(--text-color);
-  }
-  
-  /* Bot bubble (left) */
-  .bot-bubble {
-    background: var(--bot-bubble-bg);
-    border-bottom-left-radius: 4px;
-  }
-  
-  /* User bubble (right) - now dark beige */
-  .user-bubble {
-    background: var(--user-bubble-bg);
-    border-bottom-right-radius: 4px;
-  }
-  
-  /******************************************
-    FOOTER / INPUT AREA (PINNED AT BOTTOM)
-  ******************************************/
-  .chat-input {
-    flex-shrink: 0;
-    height: var(--footer-height);
-    display: flex;
-    align-items: center;
-    background: var(--header-footer-bg);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--border-color);
-    padding: 0 var(--spacing-md);
-    z-index: 10;
-  }
-  
-  /* Hidden when minimized */
-  .chat-input.minimized {
-    display: none;
-  }
-  
-  /* Input */
-  .chat-input input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: var(--text-color);
-    font-size: 0.9rem;
-    padding: var(--spacing-sm);
-    margin-right: var(--spacing-sm);
-  }
-  
-  .chat-input input::placeholder {
-    color: var(--placeholder-color);
-  }
-  
-  /* Send Button (dark beige) */
-  .chat-input button {
-    border: none;
-    outline: none;
-    background: var(--accent-color);
-    color: #fff;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: var(--spacing-sm) var(--spacing-md);
-    cursor: pointer;
-    transition: background 0.3s;
-    display: flex;
-    align-items: center;
-  }
-  
-  .chat-input button:hover {
-    background: var(--accent-color-hover);
-  }
-  
-  /******************************************
-    SIMPLE FADE/SLIDE ANIMATION
-  ******************************************/
-  @keyframes fadeInUp {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /******************************************
-    CUSTOM SCROLLBAR (optional)
-  ******************************************/
-  .chat-messages::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .chat-messages::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .chat-messages::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-  }
-  
+}
