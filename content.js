@@ -49,7 +49,7 @@ window.addEventListener("message", function(event) {
         bubble.style.width = "60px";
         bubble.style.height = "60px";
         bubble.style.borderRadius = "50%";
-        bubble.style.backgroundColor = "#393632";
+        bubble.style.backgroundColor = "#E7E3D6";
         bubble.style.color = "#fff";
         bubble.style.display = "flex";
         bubble.style.alignItems = "center";

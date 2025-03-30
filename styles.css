@@ -34,8 +34,8 @@ body {
 
   /* User bubble & accent color (Oracle Redwood often uses teal or blue) */
   --user-bubble-bg: #006fd2; /* Teal/Blue accent */
-  --accent-color: #006fd2;
-  --accent-color-hover: #0052a0;
+  --accent-color: #836E91;
+  --accent-color-hover: #694c7c;
 
   /* Text colors */
   --text-color: #1b1b1b;
