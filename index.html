@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Permissions-Policy" content="microphone=(), camera=()">
+  <meta name="allow-microphone" content="true">
   <title>OCI Chatbot</title>
   <!-- Link to external CSS -->
   <link rel="stylesheet" href="styles.css" />
@@ -47,6 +49,9 @@
     <!-- Footer / Input Area (fixed at bottom) -->
     <div class="chat-input">
       <input type="text" id="chat-input" placeholder="Type here..." />
+      <button id="voice-btn" title="Voice Input">
+        <i class="fa-solid fa-microphone"></i>
+      </button>
       <!-- Send button color updated to match dark beige -->
       <button id="send-btn">
         <i class="fa-solid fa-angle-up"></i>

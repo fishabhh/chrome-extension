@@ -240,22 +240,55 @@ body {
   color: var(--placeholder-color);
 }
 
-/* Send Button */
+/* Voice and Send Buttons */
 .chat-input button {
+  background: transparent;
   border: none;
   outline: none;
-  background: var(--accent-color);
-  color: #fff;
-  font-weight: 600;
-  border-radius: 4px;
-  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--accent-color);
   cursor: pointer;
-  transition: background 0.3s;
+  padding: var(--spacing-sm);
+  border-radius: 50%;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
 }
 
 .chat-input button:hover {
+  background: rgba(131, 110, 145, 0.1);
+}
+
+#voice-btn {
+  margin-right: var(--spacing-sm);
+}
+
+#voice-btn.recording {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#send-btn {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+#send-btn:hover {
   background: var(--accent-color-hover);
 }
 

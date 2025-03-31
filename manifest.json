@@ -4,7 +4,9 @@
     "manifest_version": 3,
     "permissions": [
       "storage",
-      "https://150.230.44.54/*"
+      "https://150.230.44.54/*",
+      "clipboardWrite",
+      "microphone"
     ],
     "content_scripts": [
       {
