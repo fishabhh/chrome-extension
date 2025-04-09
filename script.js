@@ -66,7 +66,7 @@ function renderMessages() {
         </div>
       `;
     } else {
-      bubble.textContent = msg.text;
+      bubble.innerHTML = formatMessageText(msg.text);
     }
 
     // Wrap the bubble in a card-style container
@@ -197,6 +197,16 @@ sendBtnEl.addEventListener("click", handleSend);
 chatInputEl.addEventListener("keydown", (e) => {
   if (e.key === "Enter") handleSend();
 });
+
+function formatMessageText(text) {
+  if (!text) return '';
+
+  // Basic Markdown-like syntax to HTML
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **bold**
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')             // *italic*
+    .replace(/`(.*?)`/g, '<code>$1</code>');           // `code`
+}
 
 function handleClearChat() {
   // Empty the array and reset conversation_id
