@@ -201,12 +201,14 @@ chatInputEl.addEventListener("keydown", (e) => {
 function formatMessageText(text) {
   if (!text) return '';
 
-  // Basic Markdown-like syntax to HTML
   return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **bold**
     .replace(/\*(.*?)\*/g, '<em>$1</em>')             // *italic*
-    .replace(/`(.*?)`/g, '<code>$1</code>');           // `code`
+    .replace(/`(.*?)`/g, '<code>$1</code>')           // `code`
+    .replace(/(?<=^|\n)(\d+\.\s.*?)(?=\n|$)/g, '$1<br>') // new line after each numbered item
+    .replace(/\n/g, '<br>'); // preserve manual newlines
 }
+
 
 function handleClearChat() {
   // Empty the array and reset conversation_id
